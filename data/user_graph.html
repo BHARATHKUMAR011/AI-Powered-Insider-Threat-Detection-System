@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #0e1117;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#9467bd", "font": {"color": "white"}, "id": "file_23.docx", "label": "file_23.docx", "shape": "dot", "size": 15, "title": "file_23.docx"}, {"color": "#ffa500", "font": {"color": "white"}, "id": "user13", "label": "user13", "shape": "dot", "size": 30, "title": "user13"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_9.docx", "label": "file_9.docx", "shape": "dot", "size": 15, "title": "file_9.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_20.docx", "label": "file_20.docx", "shape": "dot", "size": 15, "title": "file_20.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_6.docx", "label": "file_6.docx", "shape": "dot", "size": 15, "title": "file_6.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_33.docx", "label": "file_33.docx", "shape": "dot", "size": 15, "title": "file_33.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_50.docx", "label": "file_50.docx", "shape": "dot", "size": 15, "title": "file_50.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_7.docx", "label": "file_7.docx", "shape": "dot", "size": 15, "title": "file_7.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_48.docx", "label": "file_48.docx", "shape": "dot", "size": 15, "title": "file_48.docx"}, {"color": "#ffa500", "font": {"color": "white"}, "id": "user20", "label": "user20", "shape": "dot", "size": 30, "title": "user20"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_25.docx", "label": "file_25.docx", "shape": "dot", "size": 15, "title": "file_25.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_45.docx", "label": "file_45.docx", "shape": "dot", "size": 15, "title": "file_45.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_47.docx", "label": "file_47.docx", "shape": "dot", "size": 15, "title": "file_47.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_24.docx", "label": "file_24.docx", "shape": "dot", "size": 15, "title": "file_24.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_29.docx", "label": "file_29.docx", "shape": "dot", "size": 15, "title": "file_29.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_15.docx", "label": "file_15.docx", "shape": "dot", "size": 15, "title": "file_15.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_31.docx", "label": "file_31.docx", "shape": "dot", "size": 15, "title": "file_31.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_27.docx", "label": "file_27.docx", "shape": "dot", "size": 15, "title": "file_27.docx"}, {"color": "#ffa500", "font": {"color": "white"}, "id": "user7", "label": "user7", "shape": "dot", "size": 30, "title": "user7"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_39.docx", "label": "file_39.docx", "shape": "dot", "size": 15, "title": "file_39.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_4.docx", "label": "file_4.docx", "shape": "dot", "size": 15, "title": "file_4.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_36.docx", "label": "file_36.docx", "shape": "dot", "size": 15, "title": "file_36.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_8.docx", "label": "file_8.docx", "shape": "dot", "size": 15, "title": "file_8.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_18.docx", "label": "file_18.docx", "shape": "dot", "size": 15, "title": "file_18.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_10.docx", "label": "file_10.docx", "shape": "dot", "size": 15, "title": "file_10.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_49.docx", "label": "file_49.docx", "shape": "dot", "size": 15, "title": "file_49.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_40.docx", "label": "file_40.docx", "shape": "dot", "size": 15, "title": "file_40.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_2.docx", "label": "file_2.docx", "shape": "dot", "size": 15, "title": "file_2.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_28.docx", "label": "file_28.docx", "shape": "dot", "size": 15, "title": "file_28.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_16.docx", "label": "file_16.docx", "shape": "dot", "size": 15, "title": "file_16.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_30.docx", "label": "file_30.docx", "shape": "dot", "size": 15, "title": "file_30.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_37.docx", "label": "file_37.docx", "shape": "dot", "size": 15, "title": "file_37.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_19.docx", "label": "file_19.docx", "shape": "dot", "size": 15, "title": "file_19.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_12.docx", "label": "file_12.docx", "shape": "dot", "size": 15, "title": "file_12.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_34.docx", "label": "file_34.docx", "shape": "dot", "size": 15, "title": "file_34.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_35.docx", "label": "file_35.docx", "shape": "dot", "size": 15, "title": "file_35.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_3.docx", "label": "file_3.docx", "shape": "dot", "size": 15, "title": "file_3.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_17.docx", "label": "file_17.docx", "shape": "dot", "size": 15, "title": "file_17.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_5.docx", "label": "file_5.docx", "shape": "dot", "size": 15, "title": "file_5.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_22.docx", "label": "file_22.docx", "shape": "dot", "size": 15, "title": "file_22.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_13.docx", "label": "file_13.docx", "shape": "dot", "size": 15, "title": "file_13.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_42.docx", "label": "file_42.docx", "shape": "dot", "size": 15, "title": "file_42.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_21.docx", "label": "file_21.docx", "shape": "dot", "size": 15, "title": "file_21.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_43.docx", "label": "file_43.docx", "shape": "dot", "size": 15, "title": "file_43.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_44.docx", "label": "file_44.docx", "shape": "dot", "size": 15, "title": "file_44.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_26.docx", "label": "file_26.docx", "shape": "dot", "size": 15, "title": "file_26.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_32.docx", "label": "file_32.docx", "shape": "dot", "size": 15, "title": "file_32.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_46.docx", "label": "file_46.docx", "shape": "dot", "size": 15, "title": "file_46.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_11.docx", "label": "file_11.docx", "shape": "dot", "size": 15, "title": "file_11.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_41.docx", "label": "file_41.docx", "shape": "dot", "size": 15, "title": "file_41.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_38.docx", "label": "file_38.docx", "shape": "dot", "size": 15, "title": "file_38.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_14.docx", "label": "file_14.docx", "shape": "dot", "size": 15, "title": "file_14.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "file_1.docx", "label": "file_1.docx", "shape": "dot", "size": 15, "title": "file_1.docx"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "usb_5", "label": "usb_5", "shape": "dot", "size": 15, "title": "usb_5"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "usb_4", "label": "usb_4", "shape": "dot", "size": 15, "title": "usb_4"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "usb_2", "label": "usb_2", "shape": "dot", "size": 15, "title": "usb_2"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "usb_1", "label": "usb_1", "shape": "dot", "size": 15, "title": "usb_1"}, {"color": "#9467bd", "font": {"color": "white"}, "id": "usb_3", "label": "usb_3", "shape": "dot", "size": 15, "title": "usb_3"}]);
+                  edges = new vis.DataSet([{"from": "file_23.docx", "to": "user20"}, {"from": "file_23.docx", "to": "user13"}, {"from": "file_23.docx", "to": "user7"}, {"from": "user13", "to": "file_9.docx"}, {"from": "user13", "to": "file_48.docx"}, {"from": "user13", "to": "file_22.docx"}, {"from": "user13", "to": "file_24.docx"}, {"from": "user13", "to": "file_33.docx"}, {"from": "user13", "to": "file_40.docx"}, {"from": "user13", "to": "file_10.docx"}, {"from": "user13", "to": "file_28.docx"}, {"from": "user13", "to": "file_25.docx"}, {"from": "user13", "to": "file_34.docx"}, {"from": "user13", "to": "file_29.docx"}, {"from": "user13", "to": "file_12.docx"}, {"from": "user13", "to": "file_6.docx"}, {"from": "user13", "to": "file_36.docx"}, {"from": "user13", "to": "file_5.docx"}, {"from": "user13", "to": "file_44.docx"}, {"from": "user13", "to": "file_49.docx"}, {"from": "user13", "to": "file_46.docx"}, {"from": "user13", "to": "file_21.docx"}, {"from": "user13", "to": "file_11.docx"}, {"from": "user13", "to": "file_18.docx"}, {"from": "user13", "to": "file_30.docx"}, {"from": "user13", "to": "file_41.docx"}, {"from": "user13", "to": "file_50.docx"}, {"from": "user13", "to": "file_19.docx"}, {"from": "user13", "to": "file_38.docx"}, {"from": "user13", "to": "file_32.docx"}, {"from": "user13", "to": "file_37.docx"}, {"from": "user13", "to": "file_3.docx"}, {"from": "user13", "to": "file_1.docx"}, {"from": "user13", "to": "file_14.docx"}, {"from": "user13", "to": "file_27.docx"}, {"from": "user13", "to": "file_13.docx"}, {"from": "user13", "to": "file_20.docx"}, {"from": "user13", "to": "file_47.docx"}, {"from": "user13", "to": "file_43.docx"}, {"from": "user13", "to": "file_4.docx"}, {"from": "user13", "to": "file_15.docx"}, {"from": "user13", "to": "file_2.docx"}, {"from": "user13", "to": "file_26.docx"}, {"from": "user13", "to": "file_16.docx"}, {"from": "user13", "to": "file_31.docx"}, {"from": "user13", "to": "file_45.docx"}, {"from": "user13", "to": "file_8.docx"}, {"from": "user13", "to": "file_17.docx"}, {"from": "user13", "to": "usb_3"}, {"from": "user13", "to": "usb_1"}, {"from": "user13", "to": "usb_2"}, {"from": "user13", "to": "usb_5"}, {"from": "file_9.docx", "to": "user20"}, {"from": "file_9.docx", "to": "user7"}, {"from": "file_20.docx", "to": "user20"}, {"from": "file_20.docx", "to": "user7"}, {"from": "file_6.docx", "to": "user20"}, {"from": "file_6.docx", "to": "user7"}, {"from": "file_33.docx", "to": "user20"}, {"from": "file_33.docx", "to": "user7"}, {"from": "file_50.docx", "to": "user20"}, {"from": "file_50.docx", "to": "user7"}, {"from": "file_7.docx", "to": "user20"}, {"from": "file_7.docx", "to": "user7"}, {"from": "file_48.docx", "to": "user7"}, {"from": "file_48.docx", "to": "user20"}, {"from": "user20", "to": "file_25.docx"}, {"from": "user20", "to": "file_30.docx"}, {"from": "user20", "to": "file_44.docx"}, {"from": "user20", "to": "file_19.docx"}, {"from": "user20", "to": "file_22.docx"}, {"from": "user20", "to": "file_27.docx"}, {"from": "user20", "to": "file_8.docx"}, {"from": "user20", "to": "file_31.docx"}, {"from": "user20", "to": "file_15.docx"}, {"from": "user20", "to": "file_24.docx"}, {"from": "user20", "to": "file_39.docx"}, {"from": "user20", "to": "file_21.docx"}, {"from": "user20", "to": "file_13.docx"}, {"from": "user20", "to": "file_41.docx"}, {"from": "user20", "to": "file_47.docx"}, {"from": "user20", "to": "file_4.docx"}, {"from": "user20", "to": "file_16.docx"}, {"from": "user20", "to": "file_40.docx"}, {"from": "user20", "to": "file_28.docx"}, {"from": "user20", "to": "file_10.docx"}, {"from": "user20", "to": "file_1.docx"}, {"from": "user20", "to": "file_26.docx"}, {"from": "user20", "to": "file_34.docx"}, {"from": "user20", "to": "file_43.docx"}, {"from": "user20", "to": "file_18.docx"}, {"from": "user20", "to": "file_3.docx"}, {"from": "user20", "to": "file_17.docx"}, {"from": "user20", "to": "file_37.docx"}, {"from": "user20", "to": "file_45.docx"}, {"from": "user20", "to": "file_29.docx"}, {"from": "user20", "to": "file_35.docx"}, {"from": "user20", "to": "file_49.docx"}, {"from": "user20", "to": "file_46.docx"}, {"from": "user20", "to": "file_2.docx"}, {"from": "user20", "to": "file_38.docx"}, {"from": "user20", "to": "file_42.docx"}, {"from": "user20", "to": "file_11.docx"}, {"from": "user20", "to": "file_14.docx"}, {"from": "user20", "to": "file_12.docx"}, {"from": "user20", "to": "file_5.docx"}, {"from": "user20", "to": "usb_3"}, {"from": "user20", "to": "usb_4"}, {"from": "user20", "to": "usb_2"}, {"from": "user20", "to": "usb_1"}, {"from": "user20", "to": "usb_5"}, {"from": "file_25.docx", "to": "user7"}, {"from": "file_45.docx", "to": "user7"}, {"from": "file_47.docx", "to": "user7"}, {"from": "file_24.docx", "to": "user7"}, {"from": "file_29.docx", "to": "user7"}, {"from": "file_15.docx", "to": "user7"}, {"from": "file_31.docx", "to": "user7"}, {"from": "file_27.docx", "to": "user7"}, {"from": "user7", "to": "file_39.docx"}, {"from": "user7", "to": "file_19.docx"}, {"from": "user7", "to": "file_41.docx"}, {"from": "user7", "to": "file_38.docx"}, {"from": "user7", "to": "file_2.docx"}, {"from": "user7", "to": "file_36.docx"}, {"from": "user7", "to": "file_8.docx"}, {"from": "user7", "to": "file_12.docx"}, {"from": "user7", "to": "file_49.docx"}, {"from": "user7", "to": "file_46.docx"}, {"from": "user7", "to": "file_5.docx"}, {"from": "user7", "to": "file_22.docx"}, {"from": "user7", "to": "file_4.docx"}, {"from": "user7", "to": "file_26.docx"}, {"from": "user7", "to": "file_34.docx"}, {"from": "user7", "to": "file_14.docx"}, {"from": "user7", "to": "file_28.docx"}, {"from": "user7", "to": "file_10.docx"}, {"from": "user7", "to": "file_16.docx"}, {"from": "user7", "to": "file_13.docx"}, {"from": "user7", "to": "file_18.docx"}, {"from": "user7", "to": "file_11.docx"}, {"from": "user7", "to": "file_40.docx"}, {"from": "user7", "to": "file_43.docx"}, {"from": "user7", "to": "file_44.docx"}, {"from": "user7", "to": "file_21.docx"}, {"from": "user7", "to": "file_37.docx"}, {"from": "user7", "to": "file_32.docx"}, {"from": "user7", "to": "file_30.docx"}, {"from": "user7", "to": "file_1.docx"}, {"from": "user7", "to": "file_35.docx"}, {"from": "user7", "to": "usb_2"}, {"from": "user7", "to": "usb_1"}, {"from": "user7", "to": "usb_3"}, {"from": "user7", "to": "usb_4"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
